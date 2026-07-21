@@ -12,7 +12,7 @@ fun EmailList(
     onEmailClick: (Email) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val sections = listOf(CustomLazyListSection(title = "Inbox", items = emails))
+    val sections = listOf(CustomLazyListSection(items = emails))
 
     CustomLazyColumn(
         sections = sections,

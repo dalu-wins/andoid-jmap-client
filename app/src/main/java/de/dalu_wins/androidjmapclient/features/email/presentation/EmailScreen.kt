@@ -38,11 +38,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import de.dalu_wins.androidjmapclient.features.email.domain.Email
 import de.dalu_wins.androidjmapclient.features.email.presentation.components.EmailDetail
 import de.dalu_wins.androidjmapclient.features.email.presentation.components.EmailList
+import de.dalu_wins.androidjmapclient.main.structures.NavItem
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun EmailScreen(
+    selectedItem: Int,
     showDrawer: Boolean,
     onOpenDrawer: () -> Unit,
     onSettingsClick: () -> Unit,
@@ -84,7 +86,7 @@ fun EmailScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "mail",
+                        text = NavItem.NAV_ITEMS.get(selectedItem).label,
                         modifier = Modifier
                             .fillMaxWidth()
                     )

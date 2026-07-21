@@ -124,6 +124,7 @@ fun EmailNavigationWrapper(
             }
 
             EmailScreen(
+                selectedItem = selectedItem,
                 showDrawer = isCompact,
                 onSettingsClick = onSettingsClick,
                 onOpenDrawer = {
