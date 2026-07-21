@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/dalu-wins/andoid-jmap-client/compare/v1.0.2...v1.0.3) (2026-07-21)
+
+
+### Bug Fixes
+
+* restructure ui closes [#7](https://github.com/dalu-wins/andoid-jmap-client/issues/7) ([8898b57](https://github.com/dalu-wins/andoid-jmap-client/commit/8898b573d25790b418e73844899fff8a78dd9b03))
+
 ## [1.0.2](https://github.com/dalu-wins/andoid-jmap-client/compare/v1.0.1...v1.0.2) (2026-07-21)
 
 
