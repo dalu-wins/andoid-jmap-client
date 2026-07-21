@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/dalu-wins/andoid-jmap-client/compare/v1.0.1...v1.0.2) (2026-07-21)
+
+
+### Bug Fixes
+
+* added buildTypes and signingConfigs to gradle ([65ee549](https://github.com/dalu-wins/andoid-jmap-client/commit/65ee5491279d13cadeff975b5a634cc3f09664a2))
+
 ## [1.0.1](https://github.com/dalu-wins/andoid-jmap-client/compare/v1.0.0...v1.0.1) (2026-07-21)
 
 
