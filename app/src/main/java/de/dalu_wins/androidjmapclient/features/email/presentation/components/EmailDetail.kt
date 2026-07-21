@@ -27,6 +27,7 @@ object EmailDetailDefaults {
     val PADDING = 12.dp
     val CONTENT_PADDING = 16.dp
     val SUBJECT_SPACING = 16.dp
+    val BOTTOM_SPACING = 4.dp
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -39,6 +40,7 @@ fun EmailDetail(
     padding: Dp = EmailDetailDefaults.PADDING,
     contentPadding: Dp = EmailDetailDefaults.CONTENT_PADDING,
     subjectSpacing: Dp = EmailDetailDefaults.SUBJECT_SPACING,
+    bottomSpacing: Dp = EmailDetailDefaults.BOTTOM_SPACING
 ) {
 
 
@@ -93,7 +95,8 @@ fun EmailDetail(
                 Text(
                     text = email.body,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(bottom = bottomSpacing)
                 )
             }
         }
