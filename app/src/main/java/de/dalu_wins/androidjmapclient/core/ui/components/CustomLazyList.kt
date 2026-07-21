@@ -83,13 +83,14 @@ fun <T> CustomLazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(itemShape)
-                        .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
                         .then(clickModifier)
                         .padding(horizontal = 16.dp, vertical = 12.dp)
                 ) {
                     itemContent(item)
                 }
             }
+
         }
     }
 }

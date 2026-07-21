@@ -113,7 +113,8 @@ fun EmailScreen(
     ) { innerPadding ->
 
         NavigableListDetailPaneScaffold(
-            modifier = modifier.padding(innerPadding),
+            modifier = modifier
+                .padding(innerPadding),
             navigator = navigator,
             listPane = {
                 AnimatedPane(

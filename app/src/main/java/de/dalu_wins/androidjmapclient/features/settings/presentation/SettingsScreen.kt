@@ -75,13 +75,14 @@ fun SettingsScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         }
-    ) { padding ->
+    ) { innerPadding ->
+
         val sections = listOf(
             CustomLazyListSection(title = "Theme", items = themeSettingItems),
         )
         CustomLazyColumn(
             sections = sections,
-            modifier = Modifier.padding(padding),
+            modifier = Modifier.padding(innerPadding),
             onItemClick = { item ->
                 when (item) {
                     is SettingType.RadioGroup<*> -> Unit

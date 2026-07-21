@@ -75,7 +75,7 @@ fun EmailDetail(
         }
         Card(
             modifier = modifier
-                .fillMaxWidth(0.9f)
+                .fillMaxWidth()
                 .padding(padding)
                 .wrapContentHeight(),
             shape = CornerShape.ReceiveMsg
