@@ -20,6 +20,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -51,6 +52,7 @@ fun EmailNavigationWrapper(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var selectedItem by remember { mutableIntStateOf(0) }
+    var selectedName by remember { mutableStateOf("Inbox") }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -88,6 +90,7 @@ fun EmailNavigationWrapper(
                                 selected = selectedItem == index,
                                 onClick = {
                                     scope.launch {
+                                        selectedName = NavItem.NAV_ITEMS.get(index).label
                                         drawerState.close()
                                         selectedItem = index
                                     }
@@ -124,7 +127,7 @@ fun EmailNavigationWrapper(
             }
 
             EmailScreen(
-                selectedItem = selectedItem,
+                selectedName = selectedName,
                 showDrawer = isCompact,
                 onSettingsClick = onSettingsClick,
                 onOpenDrawer = {
