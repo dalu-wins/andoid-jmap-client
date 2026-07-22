@@ -34,6 +34,7 @@ fun EmailListItem(
             Text(
                 text = email.sender,
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Bold
             )
             Text(

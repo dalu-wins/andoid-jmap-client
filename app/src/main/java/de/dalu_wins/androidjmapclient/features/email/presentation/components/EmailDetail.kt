@@ -88,6 +88,7 @@ fun EmailDetail(
                     text = email.subject,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = subjectSpacing)
                 )
                 Text(

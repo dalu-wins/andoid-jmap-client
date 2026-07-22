@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -58,7 +59,6 @@ fun EmailScreen(
     showDrawer: Boolean,
     onOpenDrawer: () -> Unit,
     onSettingsClick: () -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: EmailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -166,14 +166,19 @@ fun EmailScreen(
                         enterTransition = enterZoom,
                         exitTransition = exitZoom
                     ) {
-                        EmailList(
-                            emails = state.emails,
-                            onEmailClick = { email ->
-                                scope.launch {
-                                    navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, email)
+                        Column {
+                            EmailList(
+                                emails = state.emails,
+                                onEmailClick = { email ->
+                                    scope.launch {
+                                        navigator.navigateTo(
+                                            ListDetailPaneScaffoldRole.Detail,
+                                            email
+                                        )
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 },
                 detailPane = {
