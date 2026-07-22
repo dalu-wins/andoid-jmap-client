@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.window.core.layout.WindowSizeClass
+import de.dalu_wins.androidjmapclient.features.email.presentation.EmailNavigationWrapper
 import de.dalu_wins.androidjmapclient.features.settings.presentation.SettingsScreen
 import kotlinx.serialization.Serializable
 

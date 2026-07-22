@@ -34,14 +34,15 @@ fun SettingsScreen(
 
     val themeSettingItems = remember(settings) {
         val themeGroup = SettingType.RadioGroup(
-            id = "theme_group",
+            id = "dark_mode",
+            title = "Mode Override",
             options = AppTheme.entries.map { theme ->
                 RadioOption(
                     value = theme,
                     label = when (theme) {
                         AppTheme.LIGHT -> "Light"
                         AppTheme.DARK -> "Dark"
-                        AppTheme.SYSTEM -> "System default"
+                        AppTheme.SYSTEM -> "System Default"
                     }
                 )
             },

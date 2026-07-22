@@ -1,11 +1,11 @@
-package de.dalu_wins.androidjmapclient.main.structures
+package de.dalu_wins.androidjmapclient.features.email.presentation.structures
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AllInbox
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Draw
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Inbox
 import androidx.compose.material.icons.filled.ReportGmailerrorred
 import androidx.compose.material.icons.filled.Star
@@ -18,7 +18,7 @@ data class NavItem(
     companion object {
         val NAV_ITEMS = listOf(
             NavItem(Icons.Default.Inbox, "Inbox"),
-            NavItem(Icons.Default.Draw, "Concepts"),
+            NavItem(Icons.Default.Edit, "Concepts"),
             NavItem(Icons.AutoMirrored.Filled.Send, "Sent"),
             NavItem(Icons.Default.Star, "Marked"),
             NavItem(Icons.Default.ReportGmailerrorred, "Spam"),

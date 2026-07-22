@@ -1,4 +1,4 @@
-package de.dalu_wins.androidjmapclient.main.components
+package de.dalu_wins.androidjmapclient.features.email.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +20,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -30,8 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import de.dalu_wins.androidjmapclient.R
-import de.dalu_wins.androidjmapclient.features.email.presentation.EmailScreen
-import de.dalu_wins.androidjmapclient.main.structures.NavItem
+import de.dalu_wins.androidjmapclient.features.email.presentation.structures.NavItem
 import kotlinx.coroutines.launch
 
 object EmailNavigationWrapperDefaults {
@@ -51,6 +51,7 @@ fun EmailNavigationWrapper(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var selectedItem by remember { mutableIntStateOf(0) }
+    var selectedName by remember { mutableStateOf("Inbox") }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -88,6 +89,7 @@ fun EmailNavigationWrapper(
                                 selected = selectedItem == index,
                                 onClick = {
                                     scope.launch {
+                                        selectedName = NavItem.NAV_ITEMS.get(index).label
                                         drawerState.close()
                                         selectedItem = index
                                     }
@@ -124,6 +126,7 @@ fun EmailNavigationWrapper(
             }
 
             EmailScreen(
+                selectedName = selectedName,
                 showDrawer = isCompact,
                 onSettingsClick = onSettingsClick,
                 onOpenDrawer = {

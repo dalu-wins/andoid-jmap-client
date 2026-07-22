@@ -34,6 +34,7 @@ fun EmailListItem(
             Text(
                 text = email.sender,
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Bold
             )
             Text(
@@ -43,12 +44,10 @@ fun EmailListItem(
                 maxLines = 1
             )
         }
-        Column {
-            Text(
-                text = email.timestamp,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.outline
-            )
-        }
+        Text(
+            text = email.timestamp,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.outline
+        )
     }
 }

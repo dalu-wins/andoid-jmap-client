@@ -65,13 +65,11 @@ fun EmailDetail(
                     fontWeight = FontWeight.Bold
                 )
             }
-            Column {
-                Text(
-                    text = email.timestamp,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.outline
-                )
-            }
+            Text(
+                text = email.timestamp,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.outline
+            )
         }
         Card(
             modifier = modifier
@@ -90,6 +88,7 @@ fun EmailDetail(
                     text = email.subject,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = subjectSpacing)
                 )
                 Text(
