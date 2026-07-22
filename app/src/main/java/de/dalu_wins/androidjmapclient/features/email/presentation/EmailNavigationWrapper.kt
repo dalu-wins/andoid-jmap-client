@@ -1,4 +1,4 @@
-package de.dalu_wins.androidjmapclient.main.components
+package de.dalu_wins.androidjmapclient.features.email.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,8 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import de.dalu_wins.androidjmapclient.R
-import de.dalu_wins.androidjmapclient.features.email.presentation.EmailScreen
-import de.dalu_wins.androidjmapclient.main.structures.NavItem
+import de.dalu_wins.androidjmapclient.features.email.presentation.structures.NavItem
 import kotlinx.coroutines.launch
 
 object EmailNavigationWrapperDefaults {
