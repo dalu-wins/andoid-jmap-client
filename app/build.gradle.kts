@@ -15,8 +15,8 @@ android {
         applicationId = "de.dalu_wins.androidjmapclient"
         minSdk = 35
         targetSdk = 37
-        versionCode = 10003
-        versionName = "1.0.3"
+        versionCode = 100
+        versionName = "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
