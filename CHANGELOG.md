@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/dalu-wins/andoid-jmap-client/compare/v0.2.0...v0.2.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* adjusted settings font colors ([39f04e9](https://github.com/dalu-wins/andoid-jmap-client/commit/39f04e96781f8092544221ec3dcfddf2383705b5))
+
 # [0.2.0](https://github.com/dalu-wins/andoid-jmap-client/compare/v0.1.0...v0.2.0) (2026-07-23)
 
 
