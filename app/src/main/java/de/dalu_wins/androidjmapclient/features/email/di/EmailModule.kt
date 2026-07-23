@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import de.dalu_wins.androidjmapclient.features.email.data.MockEmailRepository
-import de.dalu_wins.androidjmapclient.features.email.domain.EmailRepository
+import de.dalu_wins.androidjmapclient.features.email.domain.repository.EmailRepository
 import javax.inject.Singleton
 
 @Module
