@@ -73,7 +73,7 @@ fun MailboxPathBreadcrumbs(
 
             // Ellipsis
             Text(
-                text = "...",
+                text = "∙∙∙",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
