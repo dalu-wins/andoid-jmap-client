@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingToolbarDefaults.ScreenOffset
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +31,7 @@ object EmailDetailDefaults {
     val CONTENT_PADDING = 16.dp
     val SUBJECT_SPACING = 16.dp
     val BOTTOM_SPACING = 4.dp
+    val SCROLL_PADDING = 80.dp
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -40,11 +44,16 @@ fun EmailDetail(
     padding: Dp = EmailDetailDefaults.PADDING,
     contentPadding: Dp = EmailDetailDefaults.CONTENT_PADDING,
     subjectSpacing: Dp = EmailDetailDefaults.SUBJECT_SPACING,
-    bottomSpacing: Dp = EmailDetailDefaults.BOTTOM_SPACING
+    bottomSpacing: Dp = EmailDetailDefaults.BOTTOM_SPACING,
+    scrollPadding: Dp = EmailDetailDefaults.SCROLL_PADDING
 ) {
 
 
-    Column {
+    Column(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = scrollPadding + ScreenOffset)
+    ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(headerSpacing),
             verticalAlignment = Alignment.CenterVertically,

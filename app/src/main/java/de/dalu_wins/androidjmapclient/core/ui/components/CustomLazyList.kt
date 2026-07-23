@@ -46,6 +46,7 @@ fun <T> CustomLazyColumn(
             modifier = Modifier.padding(titlePadding)
         )
     },
+    key: ((T) -> Any)? = null,
     itemContent: @Composable (T) -> Unit
 ) {
     LazyColumn(
@@ -64,7 +65,8 @@ fun <T> CustomLazyColumn(
             }
 
             itemsIndexed(
-                items = section.items
+                items = section.items,
+                key = key?.let { k -> { _, item -> k(item) } }
             ) { index, item ->
                 val itemShape = when {
                     section.items.size == 1 -> CornerShape.All
@@ -83,7 +85,7 @@ fun <T> CustomLazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(itemShape)
-                        .background(MaterialTheme.colorScheme.surfaceContainer)
+                        .background(MaterialTheme.colorScheme.surfaceContainerHigh)
                         .then(clickModifier)
                         .padding(horizontal = 16.dp, vertical = 12.dp)
                 ) {

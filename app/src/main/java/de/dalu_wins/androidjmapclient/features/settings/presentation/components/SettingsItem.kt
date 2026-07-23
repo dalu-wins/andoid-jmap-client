@@ -22,20 +22,17 @@ import de.dalu_wins.androidjmapclient.features.settings.presentation.structures.
 @Composable
 fun SettingsItem(item: SettingType) {
     when (item) {
-        is SettingType.RadioGroup<*> -> {
-            @Suppress("UNCHECKED_CAST")
-            val group = item as SettingType.RadioGroup<Any>
-
+        is SettingType.RadioGroupItem -> {
             Column(modifier = Modifier.selectableGroup()) {
-                group.title?.let { title ->
+                item.title?.let { title ->
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                 }
-                group.options.forEach { option ->
-                    val isSelected = option.value == group.selectedValue
+                item.options.forEach { option ->
+                    val isSelected = option.value == item.selectedValue
                     val interactionSource = remember { MutableInteractionSource() }
 
                     Row(
@@ -43,10 +40,10 @@ fun SettingsItem(item: SettingType) {
                             .fillMaxWidth()
                             .selectable(
                                 selected = isSelected,
-                                onClick = { group.onOptionSelected(option.value) },
+                                onClick = { item.onAnyOptionSelected(option.value) },
                                 role = Role.RadioButton,
                                 interactionSource = interactionSource,
-                                indication = null // Deaktiviert das Ripple/Highlighting auf der gesamten Row
+                                indication = null
                             )
                             .padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -59,7 +56,7 @@ fun SettingsItem(item: SettingType) {
                         RadioButton(
                             selected = isSelected,
                             onClick = null,
-                            interactionSource = interactionSource // Leitet den Touch-Effekt auf den RadioButton um
+                            interactionSource = interactionSource
                         )
                     }
                 }

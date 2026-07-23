@@ -1,31 +1,19 @@
 package de.dalu_wins.androidjmapclient.features.email.presentation
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Reply
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Draw
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingToolbarDefaults.ScreenOffset
-import androidx.compose.material3.HorizontalFloatingToolbar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -43,22 +31,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import de.dalu_wins.androidjmapclient.features.email.domain.Email
+import de.dalu_wins.androidjmapclient.features.email.domain.Mailbox
+import de.dalu_wins.androidjmapclient.features.email.domain.MailboxItem
 import de.dalu_wins.androidjmapclient.features.email.presentation.components.EmailDetail
+import de.dalu_wins.androidjmapclient.features.email.presentation.components.EmailDetailPlaceholder
+import de.dalu_wins.androidjmapclient.features.email.presentation.components.EmailFloatingToolbar
 import de.dalu_wins.androidjmapclient.features.email.presentation.components.EmailList
+import de.dalu_wins.androidjmapclient.features.email.presentation.components.EmailTopBar
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun EmailScreen(
-    selectedName: String,
-    showDrawer: Boolean,
-    onOpenDrawer: () -> Unit,
-    onSettingsClick: () -> Unit,
+    isCompact: Boolean,
     viewModel: EmailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -66,132 +54,152 @@ fun EmailScreen(
     val customDirective = calculatePaneScaffoldDirective(adaptiveInfo).copy(
         horizontalPartitionSpacerSize = 0.dp
     ) // Override to avoid huge gap between panes in tablet mode
-    val navigator = rememberListDetailPaneScaffoldNavigator<Email>(
+    val navigator = rememberListDetailPaneScaffoldNavigator<MailboxItem>(
         scaffoldDirective = customDirective
     )
     val scope = rememberCoroutineScope()
-    var lastSelectedEmail by remember { mutableStateOf(state.emails.firstOrNull()) }
-    val currentEmail = navigator.currentDestination?.contentKey
+    var lastSelectedEmail by remember { mutableStateOf<Email?>(null) }
+    val selectedItem = navigator.currentDestination?.contentKey
 
-    if (currentEmail != null) {
-        lastSelectedEmail = currentEmail
+    if (selectedItem is Email) {
+        lastSelectedEmail = selectedItem
     }
-    val bouncyScaleSpec = MaterialTheme.motionScheme.defaultSpatialSpec<Float>()
 
-    val enterZoom = scaleIn(
-        initialScale = 0.85f,
-        animationSpec = bouncyScaleSpec
-    ) + fadeIn(animationSpec = bouncyScaleSpec)
-    val exitZoom = scaleOut(
-        targetScale = 0.85f,
-        animationSpec = bouncyScaleSpec
-    ) + fadeOut(animationSpec = bouncyScaleSpec)
+    val canNavigateBackInNavigator = navigator.canNavigateBack()
+    val showBackButton = state.canNavigateBack || canNavigateBackInNavigator
+
+    val backAction = {
+        if (canNavigateBackInNavigator) {
+            scope.launch { navigator.navigateBack() }
+        } else {
+            viewModel.navigateBack()
+        }
+    }
+
+    BackHandler(enabled = showBackButton) {
+        backAction()
+    }
+
+    val bouncyAlphaSpec = MaterialTheme.motionScheme.defaultSpatialSpec<Float>()
+    val effectsSpec = MaterialTheme.motionScheme.slowSpatialSpec<Float>()
+
     val isExpanded =
         navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
+
+    val showFilters = !isCompact || !isExpanded
+
     val horizontalBias by animateFloatAsState(
         targetValue = if (isExpanded) 0f else 1f,
-        animationSpec = bouncyScaleSpec,
+        animationSpec = bouncyAlphaSpec,
         label = "toolbarAlignment"
     )
 
+    val unreadCount = state.items.filterIsInstance<Email>().filter { email -> email.isUnread }.size
+
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = selectedName,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
-                },
-                navigationIcon = {
-                    if (showDrawer) {
-                        IconButton(onClick = onOpenDrawer) {
-                            Icon(
-                                imageVector = Icons.Filled.Menu,
-                                contentDescription = "Open Drawer"
-                            )
-                        }
+            EmailTopBar(
+                mailboxName = state.currentMailboxName,
+                mailboxPath = state.mailboxPath,
+                showBackButton = showBackButton,
+                showFilters = showFilters,
+                showOnlyUnread = state.showOnlyUnread,
+                unreadCount = unreadCount,
+                onBackClick = { backAction() },
+                onToggleUnreadFilter = { viewModel.toggleUnreadFilter() },
+                onPathIndexClick = { index ->
+                    viewModel.navigateToPathIndex(index)
+                    if (canNavigateBackInNavigator) {
+                        scope.launch { navigator.navigateBack() }
                     }
                 },
-                actions = {
-                    IconButton(onClick = onSettingsClick) {
-                        Icon(
-                            imageVector = Icons.Filled.Settings,
-                            contentDescription = "Open Settings"
-                        )
+                onLastPathItemClick = {
+                    if (canNavigateBackInNavigator) {
+                        scope.launch { navigator.navigateBack() }
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         Box(
             modifier = Modifier.padding(innerPadding)
         ) {
-            HorizontalFloatingToolbar(
-                modifier =
-                    Modifier
-                        .align(BiasAlignment(horizontalBias, 1f))
-                        .padding(bottom = ScreenOffset)
-                        .zIndex(1f),
-                expanded = isExpanded,
-                floatingActionButton = {
-                    FloatingActionButton(onClick = { }) {
-                        Icon(
-                            Icons.Filled.Draw,
-                            contentDescription = "New Mail"
-                        )
-                    }
-                },
-                content = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete"
-                        )
-                    }
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.Reply,
-                            contentDescription = "Reply"
-                        )
-                    }
-                },
+            EmailFloatingToolbar(
+                isExpanded = isExpanded,
+                onNewMailClick = { },
+                onDeleteClick = { },
+                onReplyClick = { },
+                modifier = Modifier
+                    .align(BiasAlignment(horizontalBias, 1f))
             )
             NavigableListDetailPaneScaffold(
                 navigator = navigator,
                 listPane = {
                     AnimatedPane(
-                        enterTransition = enterZoom,
-                        exitTransition = exitZoom
+                        enterTransition = fadeIn(animationSpec = effectsSpec),
+                        exitTransition = fadeOut(animationSpec = effectsSpec)
                     ) {
-                        Column {
-                            EmailList(
-                                emails = state.emails,
-                                onEmailClick = { email ->
-                                    scope.launch {
-                                        navigator.navigateTo(
-                                            ListDetailPaneScaffoldRole.Detail,
-                                            email
-                                        )
+                        AnimatedContent(
+                            targetState = state.items,
+                            transitionSpec = {
+                                fadeIn(animationSpec = effectsSpec) togetherWith
+                                        fadeOut(animationSpec = effectsSpec)
+                            },
+                            label = "listContentTransition"
+                        ) { items ->
+                            Column {
+                                val displayItems = remember(items, state.showOnlyUnread) {
+                                    if (state.showOnlyUnread) {
+                                        items.filter { item ->
+                                            when (item) {
+                                                is Email -> item.isUnread
+                                                is Mailbox -> false // Don't keep folders visible
+                                            }
+                                        }
+                                    } else {
+                                        items
                                     }
                                 }
-                            )
+
+                                EmailList(
+                                    items = displayItems,
+                                    onItemClick = { item ->
+                                        if (item is Email) {
+                                            scope.launch {
+                                                navigator.navigateTo(
+                                                    ListDetailPaneScaffoldRole.Detail,
+                                                    item
+                                                )
+                                            }
+                                        } else if (item is Mailbox) {
+                                            viewModel.onMailboxClick(item)
+                                        }
+                                    }
+                                )
+                            }
                         }
                     }
                 },
                 detailPane = {
                     AnimatedPane(
-                        enterTransition = enterZoom,
-                        exitTransition = exitZoom
+                        enterTransition = fadeIn(animationSpec = effectsSpec),
+                        exitTransition = fadeOut(animationSpec = effectsSpec)
                     ) {
-                        lastSelectedEmail?.let { email ->
-                            EmailDetail(email = email)
-                        } ?: Text(
-                            text = "Select an email",
-                            modifier = Modifier.padding(16.dp)
-                        )
+                        AnimatedContent(
+                            targetState = lastSelectedEmail,
+                            transitionSpec = {
+                                fadeIn(animationSpec = effectsSpec) togetherWith
+                                        fadeOut(animationSpec = effectsSpec)
+                            },
+                            label = "detailContentTransition"
+                        ) { email ->
+                            email?.let {
+                                EmailDetail(email = it)
+                            } ?: EmailDetailPlaceholder(
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
                     }
                 }
             )
