@@ -1,3 +1,15 @@
+# [0.2.0](https://github.com/dalu-wins/andoid-jmap-client/compare/v0.1.0...v0.2.0) (2026-07-23)
+
+
+### Bug Fixes
+
+* replace ellipsis with middle dots ([feac273](https://github.com/dalu-wins/andoid-jmap-client/commit/feac2738904c05bd425e52a970ac3b119b300f3b))
+
+
+### Features
+
+* implemented nested mailboxes, full ui refactor, ui supports tablets and phones ([a8fd345](https://github.com/dalu-wins/andoid-jmap-client/commit/a8fd345a5cf44d93815335d7753abaf80ec0530f))
+
 # [0.1.0](https://github.com/dalu-wins/andoid-jmap-client/compare/v0.0.0...v0.1.0) (2026-07-22)
 
 
