@@ -28,6 +28,7 @@ fun SettingsItem(item: SettingType) {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                 }
@@ -51,6 +52,7 @@ fun SettingsItem(item: SettingType) {
                         Text(
                             text = option.label,
                             style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
                         )
                         RadioButton(
@@ -71,6 +73,7 @@ fun SettingsItem(item: SettingType) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = item.title,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.titleMedium
                     )
                     item.subtitle?.let {
@@ -92,6 +95,7 @@ fun SettingsItem(item: SettingType) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = item.title,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleMedium
                 )
                 item.subtitle?.let {
